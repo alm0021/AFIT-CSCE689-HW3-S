@@ -12,8 +12,7 @@
 class PCalc_SP : public PCalc
 {
 public:
-
-	PCalc_SP(unsigned int array_size);
+	PCalc_SP(unsigned int ar_sz);
 	~PCalc_SP();
 
 	// Overload me!
