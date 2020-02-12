@@ -29,10 +29,38 @@ void PCalc_T::cleanup()
  ************************************************************************************************/
 void PCalc_T::markNonPrimes()
 {
+	auto mark2 = [this](int x) {
+		unsigned int n = this->array_size(); // size of array
+		unsigned int j = (x * (n / t_amt)); // upper bound of thread
+		unsigned int k = 2;
+
+		if(x > 0){
+			unsigned int i = 3;
+			while (i < n){
+				if(this->at(i) == false){
+					k = i;
+					break;
+				}
+				i++;
+			}
+		}
+		
+		for (unsigned int p = k; p * p <= j; p++)
+		{
+			if (this->at(p) == true)
+			{
+				for (unsigned int i = p * p; i <= j; i += p)
+					this->at(i) = false;
+			}
+		}
+	};
+
 	//lambda function that marks non primes to pass to thread
-	auto markPrime = [this](int x) {
-		unsigned int n = this->array_size();
-		unsigned int k = (x * (n / t_amt)) - (n / t_amt - 1) < 2 ? 2 : (x * (n / t_amt)) - (n / t_amt - 1);
+	//splits into parts
+	auto segSieve = [this](int x) {
+		unsigned int n = this->array_size(); // size of array
+		unsigned int j = (x * (n / t_amt)); // upper bound of thread
+		unsigned int k = j - (n / t_amt - 1) < 2 ? 2 : j - (n / t_amt - 1); // where thread starts
 		if (k > 2)
 		{
 			for (int h = k; h < n / t_amt; h++)
@@ -43,7 +71,7 @@ void PCalc_T::markNonPrimes()
 			}
 		}
 		std::cout << "Thread " << x << " starting prime is: " << k << std::endl;
-		unsigned int j = (x * (n / t_amt));
+
 		for (unsigned int p = k; p * p <= j; p++)
 		{
 			if (this->at(p) == true)
@@ -59,7 +87,7 @@ void PCalc_T::markNonPrimes()
 
 	for (unsigned int i = 0; i < t_amt; i++)
 	{
-		threads[i] = std::thread(markPrime, i);
+		threads[i] = std::thread(mark2, i);
 	}
 	for (unsigned int i = 0; i < t_amt; i++)
 	{
