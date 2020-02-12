@@ -25,8 +25,7 @@ public:
 
 protected:
 private:
-	unsigned int asize;
-	bool *primelist;
+	unsigned int t_amt; //number of threads
 };
 
 #endif
