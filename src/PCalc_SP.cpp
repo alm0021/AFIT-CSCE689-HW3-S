@@ -1,12 +1,11 @@
+// https://www.geeksforgeeks.org/sieve-of-eratosthenes/
+
 #include <iostream>
 #include <bits/stdc++.h>
 #include "PCalc_SP.h"
 
 PCalc_SP::PCalc_SP(unsigned int ar_sz) : PCalc(ar_sz)
 {
-	asize = ar_sz;
-	bool primes[asize];
-	primelist = primes;
 }
 
 /************************************************************************************************
@@ -22,9 +21,7 @@ PCalc_SP::~PCalc_SP()
  ************************************************************************************************/
 void PCalc_SP::cleanup()
 {
-	if (primelist != NULL)
-		delete[] primelist;
-	primelist = NULL;
+	this->PCalc::cleanup();
 }
 
 /************************************************************************************************
@@ -32,23 +29,17 @@ void PCalc_SP::cleanup()
  ************************************************************************************************/
 void PCalc_SP::markNonPrimes()
 {
-	// Create a boolean array "prime[0..n]" and initialize
-	// all entries it as true. A value in prime[i] will
+	// A value in primelist[i] will
 	// finally be false if i is Not a prime, else true.
-	//primelist[n+1];
-	memset(primelist, true, sizeof(primelist));
 
-	for (int p = 2; p * p <= asize; p++)
+	for (unsigned int p = 2; p * p <= this->array_size(); p++)
 	{
-		// If prime[p] is not changed, then it is a prime
-		if (primelist[p] == true)
+		if (this->at(p) == true)
 		{
-			// Update all multiples of p greater than or
-			// equal to the square of it
-			// numbers which are multiple of p and are
-			// less than p^2 are already been marked.
-			for (int i = p * p; i <= asize; i += p)
-				primelist[i] = false;
+			for (unsigned int i = p * p; i <= this->array_size(); i += p)
+				this->at(i) = false;
 		}
 	}
+	//this->at(0) = false;
+	//this->at(1) = false;
 }

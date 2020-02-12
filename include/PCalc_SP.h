@@ -23,8 +23,7 @@ public:
 
 protected:
 private:
-	unsigned int asize;
-	bool *primelist;
+
 };
 
 #endif
