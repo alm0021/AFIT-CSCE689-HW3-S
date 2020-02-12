@@ -23,6 +23,8 @@ public:
 	// if you overload, don't forget to call me
 	void cleanup();
 
+	void markPrimeThread(unsigned int prime);
+
 protected:
 private:
 	unsigned int t_amt; //number of threads
