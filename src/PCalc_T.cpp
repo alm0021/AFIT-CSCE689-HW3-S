@@ -38,7 +38,7 @@ void PCalc_T::markNonPrimes()
 	std::thread threads[t_amt];			 // threads array
 
 	auto mark2 = [](PCalc_T *P, unsigned int &pos) { //lambda to pass to thread
-		//Update multiples of pos >= pos^2
+		//Update multiples of pos greater than or equal to pos squared
 		unsigned int p = pos;
 		for (unsigned int i = pos * pos; i <= P->array_size(); i += p)
 		{
@@ -46,9 +46,7 @@ void PCalc_T::markNonPrimes()
 			std::cout << i << " is not prime." << std::endl;
 			pos = i;
 		}
-		
 		pos = 0; // Tell the management thread we are done
-		
 	};
 
 	//management thread
