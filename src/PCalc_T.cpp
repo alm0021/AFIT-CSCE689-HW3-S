@@ -39,7 +39,8 @@ void PCalc_T::markNonPrimes()
 	auto mark2 = [](PCalc_T *P, unsigned int &pos) { //lambda to pass to thread
 		//Update multiples of pos greater than or equal to pos squared
 		unsigned int p = pos;
-		for (unsigned int i = pos * pos; i <= P->array_size(); i += p)
+		unsigned int n = P->array_size();
+		for (unsigned int i = pos * pos; i <= n; i += p)
 		{
 			P->at(i) = false;
 			pos = i;
@@ -69,7 +70,7 @@ void PCalc_T::markNonPrimes()
 						lowest_thread = findLow(threadpos);
 						if (threadpos[i] >= lowest_thread)
 						{
-							std::this_thread::sleep_for(std::chrono::milliseconds(10));
+							std::this_thread::sleep_for(std::chrono::microseconds(1));
 						}
 					}
 					threadpos[i] = startPt;
@@ -79,10 +80,10 @@ void PCalc_T::markNonPrimes()
 				if (i == t_amt - 1)
 				{
 					i = 0;
-					std::this_thread::sleep_for(std::chrono::milliseconds(10));
+					std::this_thread::sleep_for(std::chrono::microseconds(1));
 				}
 			}
-			std::this_thread::sleep_for(std::chrono::milliseconds(10));
+			std::this_thread::sleep_for(std::chrono::microseconds(1));
 		}
 	}
 
