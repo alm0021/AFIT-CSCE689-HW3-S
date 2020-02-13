@@ -23,7 +23,8 @@ public:
 	// if you overload, don't forget to call me
 	void cleanup();
 
-	void markPrimeThread(unsigned int prime);
+	unsigned int newStartPos(); //return index of first true value in arraylist
+	unsigned int findLow(unsigned int *threadpos); // returns lowest postion of threads
 
 protected:
 private:
