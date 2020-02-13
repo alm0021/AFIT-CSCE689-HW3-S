@@ -29,6 +29,36 @@ void PCalc_T::cleanup()
  ************************************************************************************************/
 void PCalc_T::markNonPrimes()
 {
+	unsigned int n = this->array_size(); // size of arraylist
+	unsigned int threadpos[t_amt];		 // int array to keep track of thread positions
+	std::thread threads[t_amt];			 // threads array
+
+	for (unsigned int startPt = 2; startPt < sqrt(n); startPt++)
+	{
+		if (this->at(startPt) == false)
+		{
+
+			for (unsigned int i_2 = 0; i_2 < n; i_2++)
+			{
+				if (threadpos[i] == 0) // thread is complete, launch a new thread
+				{
+					// find next position for new thread to start
+					// threadpos[i] = newstart;
+					 threads[i] = std::thread([]markIV(PCalc *this, unsigned int &threadpos[i]) {
+						for (unsigned int p = k; p * p <= j; p++)
+						{
+							if (this->at(p) == true)
+							{
+								for (unsigned int i = p * p; i <= j; i += p)
+									this->at(i) = false;
+							}
+						} 
+				}
+				}
+			}
+		}
+	}
+
 	auto mark2 = [this](int x) {
 		unsigned int n = this->array_size(); // size of array
 		unsigned int j = (x * (n / t_amt));  // upper bound of thread
@@ -48,17 +78,22 @@ void PCalc_T::markNonPrimes()
 			}
 		}
 
-		switch(x){
-			case 0: k = 2;
+		switch (x)
+		{
+		case 0:
+			k = 2;
 			break;
-			case 1: k = 3;
+		case 1:
+			k = 3;
 			break;
-			case 2: k = 5;
+		case 2:
+			k = 5;
 			break;
-			case 3: k = 7;
+		case 3:
+			k = 7;
 			break;
 		}
-		
+
 		for (unsigned int p = k; p * p <= j; p++)
 		{
 			if (this->at(p) == true)
@@ -95,9 +130,6 @@ void PCalc_T::markNonPrimes()
 			}
 		}
 	};
-
-	// Create threads
-	std::thread threads[t_amt];
 
 	for (unsigned int i = 0; i < t_amt; i++)
 	{
