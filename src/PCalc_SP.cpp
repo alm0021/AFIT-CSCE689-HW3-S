@@ -40,6 +40,4 @@ void PCalc_SP::markNonPrimes()
 				this->at(i) = false;
 		}
 	}
-	//this->at(0) = false;
-	//this->at(1) = false;
 }
