@@ -31,18 +31,32 @@ void PCalc_T::markNonPrimes()
 {
 	auto mark2 = [this](int x) {
 		unsigned int n = this->array_size(); // size of array
-		unsigned int j = (x * (n / t_amt)); // upper bound of thread
+		unsigned int j = (x * (n / t_amt));  // upper bound of thread
 		unsigned int k = 2;
 
-		if(x > 0){
+		if (x > 0)
+		{
 			unsigned int i = 3;
-			while (i < n){
-				if(this->at(i) == false){
+			while (i < n)
+			{
+				if (this->at(i) == false)
+				{
 					k = i;
 					break;
 				}
 				i++;
 			}
+		}
+
+		switch(x){
+			case 0: k = 2;
+			break;
+			case 1: k = 3;
+			break;
+			case 2: k = 5;
+			break;
+			case 3: k = 7;
+			break;
 		}
 		
 		for (unsigned int p = k; p * p <= j; p++)
@@ -58,8 +72,8 @@ void PCalc_T::markNonPrimes()
 	//lambda function that marks non primes to pass to thread
 	//splits into parts
 	auto segSieve = [this](int x) {
-		unsigned int n = this->array_size(); // size of array
-		unsigned int j = (x * (n / t_amt)); // upper bound of thread
+		unsigned int n = this->array_size();								// size of array
+		unsigned int j = (x * (n / t_amt));									// upper bound of thread
 		unsigned int k = j - (n / t_amt - 1) < 2 ? 2 : j - (n / t_amt - 1); // where thread starts
 		if (k > 2)
 		{
